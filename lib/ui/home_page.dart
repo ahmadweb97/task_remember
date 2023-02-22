@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +64,7 @@ var notifyHelper;
 
           Task task = _taskController.taskList[index];
           print(task.toJson());
-          if(task.repeat=='Daily' || task.repeat=='None' || task.repeat=='Weekly' || task.repeat=='Monthly') {
+          if(task.repeat=='Daily' && task.repeat=='None') {
             DateTime date = DateFormat.jm().parse(task.startTime.toString());
             var myTime = DateFormat("HH:mm").format(date);
             notifyHelper.scheduledNotification(
@@ -90,8 +92,28 @@ var notifyHelper;
               ),
             );
           }
+       /*   if(task.repeat=='Weekly') {
 
-          if(task.date==DateFormat.yMd().format(_selectedDate)){
+            DateTime now = DateTime.now();
+            DateTime startTime = DateFormat.jm().parse(task.startTime.toString());
+            int daysUntilNextOccurrence = (DateTime.sunday - startTime.weekday + 7) % 7;
+            DateTime nextOccurrence = now.add(Duration(days: daysUntilNextOccurrence));
+            nextOccurrence = DateTime(
+                nextOccurrence.year,
+                nextOccurrence.month,
+                nextOccurrence.day,
+                startTime.hour,
+                startTime.minute
+            );
+
+            notifyHelper.scheduledNotification(
+               *//* int.parse(myTime.toString().split(":")[0]),
+                int.parse(myTime.toString().split(":")[1]),*//*
+                nextOccurrence.hour,
+                nextOccurrence.minute,
+                task
+
+            );
             return AnimationConfiguration.staggeredList(
               position: index,
               child: SlideAnimation(
@@ -110,12 +132,38 @@ var notifyHelper;
                 ),
               ),
             );
-          }else{
-            return Container();
-          }
+          }*/
 
 
-      });
+
+
+          if(task.date == DateFormat.yMd().format(_selectedDate)
+          ) {
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                child: SlideAnimation(
+                  child: FadeInAnimation(
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _showBottomSheet(context, task);
+                            },
+                            child: TaskTile(task),
+                          )
+
+                        ],
+                      )
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+
+
+
+          });
     }),
     );
   }

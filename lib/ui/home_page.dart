@@ -62,7 +62,7 @@ var notifyHelper;
 
           Task task = _taskController.taskList[index];
           print(task.toJson());
-          if(task.repeat=='Daily') {
+          if(task.repeat=='Daily' || task.repeat=='None' || task.repeat=='Weekly' || task.repeat=='Monthly') {
             DateTime date = DateFormat.jm().parse(task.startTime.toString());
             var myTime = DateFormat("HH:mm").format(date);
             notifyHelper.scheduledNotification(

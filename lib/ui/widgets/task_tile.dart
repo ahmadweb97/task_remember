@@ -22,7 +22,7 @@ class TaskTile extends StatelessWidget {
         //  width: SizeConfig.screenWidth * 0.78,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: task!.isCompleted == 1 ?Colors.green[800]:_getBGClr(task?.color??0),
+          color: task!.isCompleted == 1 ?Colors.green[700]:_getBGClr(task?.color??0),
           //color: _getBGClr(task?.color??0),
         ),
         child: Row(children: [
